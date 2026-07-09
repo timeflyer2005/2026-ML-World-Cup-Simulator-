@@ -18,7 +18,17 @@ def load_data():
 
 
 def clean_team_names(results, elo, former_names):
+    results["home_team"] = results["home_team"].str.replace("\xa0", " ", regex=False)
+    results["away_team"] = results["away_team"].str.replace("\xa0", " ", regex=False)
+    elo["team"] = elo["team"].str.replace("\xa0", " ", regex=False)
+
     name_map = dict(zip(former_names["former"], former_names["current"]))
+
+    extra_map = {
+        "USA": "United States",
+    }
+
+    name_map.update(extra_map)
 
     results["home_team"] = results["home_team"].replace(name_map)
     results["away_team"] = results["away_team"].replace(name_map)
